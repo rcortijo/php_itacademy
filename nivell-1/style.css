@@ -91,7 +91,7 @@
     min-height: 10px;
 }
 
-/* Responsive layout */
+/* Responsive layout & Mobile*/
 @media screen and (max-width: 480px) {
     #container-head-section1{
         flex-direction: column; 
@@ -106,5 +106,4 @@
     .container-body-section1 > div{
         flex-direction: column; 
     }
-    
   }
