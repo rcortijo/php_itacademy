@@ -1,6 +1,7 @@
 <?php
     session_start();
     session_destroy();
+    session_unset();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,5 +27,6 @@
                     <td></td><td><input type="submit" value="registrar" name="btnRegistrar"></td>
                 </tr>
         </form>
+        <script src="valida.js" type="text/javascript"></script>
     </body>
 </html>

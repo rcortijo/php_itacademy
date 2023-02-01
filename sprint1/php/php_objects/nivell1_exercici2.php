@@ -1,6 +1,6 @@
 <?php
 
-class Shape{
+abstract class Shape{
     protected $width;
     protected $height;
     protected $area;
@@ -12,6 +12,7 @@ class Shape{
     public function print(){
         echo "Ancho: ".$this->width." Alto: ".$this->height. " Area: ".$this->area."<br>";
     }
+    abstract function area();
 
 }
 
