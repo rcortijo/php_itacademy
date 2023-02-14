@@ -1,5 +1,5 @@
 /*collection: pais*/
-[{
+pais=[{
     "_id": {
       "$oid": "63ea243f3444f2ce29a945eb"
     },
@@ -12,7 +12,7 @@
   }]
 
   /*collection: usuario*/
-  [{
+  usuario=[{
     "_id": {
       "$oid": "63ea255b3444f2ce29a945ef"
     },
@@ -49,7 +49,7 @@
   }]
 
   /*collection: pago*/
-  [{
+  pago=[{
     "_id": {
       "$oid": "63ea27803444f2ce29a945f4"
     },
@@ -84,7 +84,7 @@
   }]
 
   /*collection: suscripcion*/
-  [{
+  suscripcion=[{
     "_id": {
       "$oid": "63ea862bd6b4a71cda111b3e"
     },
@@ -127,7 +127,7 @@
   }]
 
   /*collection: genero*/
-  [{
+  genero=[{
     "_id": {
       "$oid": "63eb685cc013b912e0ba99a6"
     },
@@ -150,7 +150,7 @@
   }]
 
   /*collection: artista*/
-  [{
+  artista=[{
     "_id": {
       "$oid": "63eb7f93c013b912e0ba99ab"
     },
@@ -170,7 +170,7 @@
   }]
 
   /*collection: album*/
-  [{
+  album=[{
     "_id": {
       "$oid": "63eb81dec013b912e0ba99ae"
     },
@@ -225,7 +225,7 @@
   }]
 
   /*collection: album_favorito*/
-  [{
+  album_favorito=[{
     "_id": {
       "$oid": "63eb8372c013b912e0ba99b1"
     },
@@ -306,7 +306,7 @@
   }]
 
   /*collection: cancion*/
-  [{
+  cancion=[{
     "_id": {
       "$oid": "63eb8499c013b912e0ba99b3"
     },
@@ -513,7 +513,7 @@
   }]
 
   /*collection: playlist*/
-  [{
+  playlist=[{
     "_id": {
       "$oid": "63eb876dc013b912e0ba99ba"
     },
@@ -615,7 +615,7 @@
   }]
 
   /*collection: cancion_favorita*/
-  [{
+  cancion_favorita=[{
     "_id": {
       "$oid": "63eb8bc9c013b912e0ba99bc"
     },
@@ -675,7 +675,7 @@
   }]
 
   /*collection: seguidor*/
-  [{
+  seguidor=[{
     "_id": {
       "$oid": "63eb8c9cc013b912e0ba99be"
     },

@@ -1,5 +1,5 @@
 /*collection: tipo_producto*/
-[{
+tipo_producto=[{
     "_id": {
       "$oid": "63e38350d7c6ded866abdb22"
     },
@@ -17,7 +17,7 @@
   }]
 
 /*collection: categoria_pizza*/
-[{
+categoria_pizza=[{
   "_id": {
     "$oid": "63e4cd5a6bf9d79cf3d0b254"
   },
@@ -35,7 +35,7 @@
 }]
 
 /*collection: producto*/
-[{
+producto=[{
     "_id": {
       "$oid": "63e4cea96bf9d79cf3d0b258"
     },
@@ -72,7 +72,7 @@
   }]
 
 /*collection: persona*/
-[{
+persona=[{
     "_id": {
       "$oid": "63e4d37f6bf9d79cf3d0b25d"
     },
@@ -123,7 +123,7 @@
   }]
   
 /*collection: provincia*/
-[{
+provincia=[{
     "_id": {
       "$oid": "63e4db9b6bf9d79cf3d0b271"
     },
@@ -131,7 +131,7 @@
   }]
 
 /*collection: localidad*/
-[{
+localidad=[{
   "_id": {
     "$oid": "63e4dbca6bf9d79cf3d0b273"
   },
@@ -145,7 +145,7 @@
 }]
 
 /*collection: tienda*/
-[{
+tienda=[{
     "_id": {
       "$oid": "63e4dd266bf9d79cf3d0b27c"
     },
@@ -158,7 +158,7 @@
   }]
 
 /*collection: cargo*/
-[{
+cargo=[{
   "_id": {
     "$oid": "63e4d6ed6bf9d79cf3d0b264"
   },
@@ -176,7 +176,7 @@
 }]
 
 /*collection: empleado*/
-[{
+empleado=[{
     "_id": {
       "$oid": "63e4ddae6bf9d79cf3d0b27e"
     },
@@ -257,7 +257,7 @@
   }]
 
 /*collection: cliente*/
-[{
+cliente=[{
   "_id": {
     "$oid": "63e4d62a6bf9d79cf3d0b262"
   },
@@ -281,7 +281,7 @@
 }]
 
 /*collection: pedido*/
-[{
+pedido=[{
     "_id": {
       "$oid": "63e4df4a6bf9d79cf3d0b281"
     },
@@ -397,7 +397,7 @@
   }]
 
 /*collection: pedido_entrega*/
-[{
+pedido_entrega=[{
     "_id": {
       "$oid": "63ea8c08d6b4a71cda111b40"
     },

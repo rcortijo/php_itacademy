@@ -1,5 +1,5 @@
 /*collection: pais*/
-[{
+pais=[{
     "_id": {
       "$oid": "63e9ff053444f2ce29a945c1"
     },
@@ -12,7 +12,7 @@
   }]
 
   /*collection: usuario*/
-  [{
+  usuario=[{
     "_id": {
       "$oid": "63e9fff63444f2ce29a945c5"
     },
@@ -47,7 +47,7 @@
   }]
 
   /*collection: categoria_canal*/
-  [{
+  categoria_canal=[{
     "_id": {
       "$oid": "63ea015e3444f2ce29a945cb"
     },
@@ -60,7 +60,7 @@
   }]
 
   /*collection: canal*/
-  [{
+  canal=[{
     "_id": {
       "$oid": "63ea025c3444f2ce29a945ce"
     },
@@ -121,7 +121,7 @@
   }]
 
   /*collection: suscripcion*/
-  [{
+  suscripcion=[{
     "_id": {
       "$oid": "63ea038a3444f2ce29a945d1"
     },
@@ -170,7 +170,7 @@
   }]
 
   /*collection: video*/
-  [{
+  video=[{
     "_id": {
       "$oid": "63ea07ee3444f2ce29a945d8"
     },
@@ -326,7 +326,7 @@
   }]
 
   /*collection: playlist*/
-  [{
+  playlist=[{
     "_id": {
       "$oid": "63ea06533444f2ce29a945d3"
     },
@@ -366,7 +366,7 @@
   }]
   
   /*collection: categoria_video*/
-  [{
+  categoria_video=[{
     "_id": {
       "$oid": "63ea07683444f2ce29a945d5"
     },
@@ -379,7 +379,7 @@
   }]
 
   /*collection: playlist_video*/
-  [{
+  playlist_video=[{
     "_id": {
       "$oid": "63ea0a413444f2ce29a945dc"
     },
@@ -528,7 +528,7 @@
   }]
 
   /*collection: publicacion*/
-  [{
+  publicacion=[{
     "_id": {
       "$oid": "63ea0e0a3444f2ce29a945e1"
     },
@@ -571,7 +571,7 @@
   }]
 
   /*collection: publicacion_reaccion*/
-  [{
+  publicacion_reaccion=[{
     "_id": {
       "$oid": "63ea121f3444f2ce29a945e3"
     },
@@ -638,7 +638,7 @@
   }]
 
   /*collection: comentario*/
-  [{
+  comentario=[{
     "_id": {
       "$oid": "63ea13073444f2ce29a945e5"
     },
@@ -715,7 +715,7 @@
   }]
 
   /*collection: comentario_reaccion*/
-  [{
+  comentario_reaccion=[{
     "_id": {
       "$oid": "63ea14d23444f2ce29a945e9"
     },

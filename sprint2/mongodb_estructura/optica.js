@@ -1,5 +1,5 @@
 /*collection: pais*/
-[{
+pais = [{
     "_id": {
       "$oid": "63e229bd9cb1609df573740d"
     },
@@ -7,7 +7,7 @@
 }]
 
 /*collection: ciudad*/
-[{
+ciudad = [{
   "_id": {
     "$oid": "63e22a139cb1609df573740f"
   },
@@ -21,7 +21,7 @@
 }]
 
 /*collection: proveedor*/
-[{
+proveedor = [{
     "_id": {
       "$oid": "63e368f7d7c6ded866abdb06"
     },
@@ -51,7 +51,7 @@
 }]
 
 /*collection: marca */
-[{
+marca = [{
   "_id": {
     "$oid": "63e36d09d7c6ded866abdb08"
   },
@@ -87,7 +87,7 @@
 }]
 
 /*collection: tipo_montura */
-[{
+tipo_montura=[{
   "_id": {
     "$oid": "63e370ccd7c6ded866abdb0a"
   },
@@ -100,7 +100,7 @@
 }]
 
 /*collection: producto*/
-[{
+producto = [{
   "_id": {
     "$oid": "63e3719ed7c6ded866abdb0d"
   },
@@ -152,7 +152,7 @@
 }]
 
 /*collection: persona*/
-[{
+persona =[{
   "_id": {
     "$oid": "63e37375d7c6ded866abdb0f"
   },
@@ -170,7 +170,7 @@
 }]
 
 /*collection: cargo*/
-[{
+cargo=[{
   "_id": {
     "$oid": "63e37474d7c6ded866abdb11"
   },
@@ -183,7 +183,7 @@
 }]
 
 /*collection: empleado*/
-[{
+empleado=[{
   "_id": {
     "$oid": "63e37546d7c6ded866abdb15"
   },
@@ -213,7 +213,7 @@
 }]
 
 /*collection: compra*/
-[{
+compra=[{
   "_id": {
     "$oid": "63e37674d7c6ded866abdb17"
   },
@@ -335,7 +335,7 @@
 }]
 
 /*collection: cliente*/
-[{
+cliente=[{
   "_id": {
     "$oid": "63e37878d7c6ded866abdb19"
   },
@@ -379,7 +379,7 @@
 }]
 
 /*collection: periodo_venta*/
-[{
+periodo_venta=[{
   "_id": {
     "$oid": "63e37d28d7c6ded866abdb1b"
   },
@@ -389,7 +389,7 @@
 }]
 
 /*collection: venta*/
-[{
+venta=[{
   "_id": {
     "$oid": "63e37df9d7c6ded866abdb1d"
   },
