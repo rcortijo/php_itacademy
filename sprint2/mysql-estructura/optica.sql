@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `optica`.`pais` (
   `idpais` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idpais`))
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `optica`.`ciudad` (
     REFERENCES `optica`.`pais` (`idpais`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -53,8 +53,86 @@ CREATE TABLE IF NOT EXISTS `optica`.`proveedor` (
     REFERENCES `optica`.`ciudad` (`idciudad`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `optica`.`persona`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `optica`.`persona` (
+  `idpersona` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NULL,
+  `direccion_postal` VARCHAR(45) NULL,
+  `telefono` VARCHAR(45) NULL,
+  `correo` VARCHAR(45) NULL,
+  `fechacrea` DATETIME NULL,
+  PRIMARY KEY (`idpersona`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `optica`.`cargo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `optica`.`cargo` (
+  `idcargo` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idcargo`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `optica`.`empleado`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `optica`.`empleado` (
+  `idempleado` INT NOT NULL AUTO_INCREMENT,
+  `fecha_ingreso` DATE NOT NULL,
+  `persona` INT NOT NULL,
+  `cargo` INT NOT NULL,
+  PRIMARY KEY (`idempleado`),
+  INDEX `fk_empleado_persona1_idx` (`persona` ASC) ,
+  INDEX `fk_empleado_cargo1_idx` (`cargo` ASC) ,
+  CONSTRAINT `fk_empleado_persona1`
+    FOREIGN KEY (`persona`)
+    REFERENCES `optica`.`persona` (`idpersona`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_empleado_cargo1`
+    FOREIGN KEY (`cargo`)
+    REFERENCES `optica`.`cargo` (`idcargo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `optica`.`compra`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `optica`.`compra` (
+  `idcompra` INT NOT NULL AUTO_INCREMENT,
+  `fecha` DATE NOT NULL,
+  `total` DOUBLE NOT NULL DEFAULT 0.00,
+  `proveedor` INT NOT NULL,
+  `empleado` INT NOT NULL,
+  INDEX `fk_compra_proveedor1_idx` (`proveedor` ASC) ,
+  PRIMARY KEY (`idcompra`),
+  INDEX `fk_compra_empleado1_idx` (`empleado` ASC) ,
+  CONSTRAINT `fk_compra_proveedor1`
+    FOREIGN KEY (`proveedor`)
+    REFERENCES `optica`.`proveedor` (`idproveedor`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_compra_empleado1`
+    FOREIGN KEY (`empleado`)
+    REFERENCES `optica`.`empleado` (`idempleado`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
 
 -- -----------------------------------------------------
 -- Table `optica`.`marca`
@@ -70,8 +148,9 @@ CREATE TABLE IF NOT EXISTS `optica`.`marca` (
     REFERENCES `optica`.`proveedor` (`idproveedor`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
 
 -- -----------------------------------------------------
 -- Table `optica`.`tipo_montura`
@@ -80,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `optica`.`tipo_montura` (
   `idtipomontura` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idtipomontura`))
-ENGINE = INNODB
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -109,58 +188,37 @@ CREATE TABLE IF NOT EXISTS `optica`.`producto` (
     REFERENCES `optica`.`tipo_montura` (`idtipomontura`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+
 -- -----------------------------------------------------
--- Table `optica`.`persona`
+-- Table `optica`.`compra_detalle`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `optica`.`persona` (
-  `idpersona` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `optica`.`compra_detalle` (
+  `compra` INT NOT NULL,
+  `producto` INT NOT NULL,
+  `cantidad` INT NOT NULL,
+  `precio` DOUBLE NOT NULL,
+  `importe` DOUBLE NOT NULL,
+  INDEX `fk_detalle_compra_compra1_idx` (`compra` ASC) ,
+  INDEX `fk_detalle_compra_producto1_idx` (`producto` ASC) )
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `optica`.`periodo_venta`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `optica`.`periodo_venta` (
+  `idperiodoventa` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NULL,
-  `direccion_postal` VARCHAR(45) NULL,
-  `telefono` VARCHAR(45) NULL,
-  `correo` VARCHAR(45) NULL,
-  `fechacrea` DATETIME NULL,
-  PRIMARY KEY (`idpersona`))
-ENGINE = INNODB
+  `fecha_inicio` DATE NULL,
+  `fecha_fin` DATE NULL,
+  PRIMARY KEY (`idperiodoventa`))
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-
--- -----------------------------------------------------
--- Table `optica`.`cargo`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `optica`.`cargo` (
-  `idcargo` INT NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idcargo`))
-ENGINE = INNODB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `optica`.`empleado`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `optica`.`empleado` (
-  `idempleado` INT NOT NULL AUTO_INCREMENT,
-  `fecha_ingreso` DATE NOT NULL,
-  `persona` INT NOT NULL,
-  `cargo` INT NOT NULL,
-  PRIMARY KEY (`idempleado`),
-  INDEX `fk_empleado_persona1_idx` (`persona` ASC) ,
-  INDEX `fk_empleado_cargo1_idx` (`cargo` ASC) ,
-  CONSTRAINT `fk_empleado_persona1`
-    FOREIGN KEY (`persona`)
-    REFERENCES `optica`.`persona` (`idpersona`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_empleado_cargo1`
-    FOREIGN KEY (`cargo`)
-    REFERENCES `optica`.`cargo` (`idcargo`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = INNODB
-DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
 -- Table `optica`.`cliente`
@@ -182,60 +240,9 @@ CREATE TABLE IF NOT EXISTS `optica`.`cliente` (
     REFERENCES `optica`.`cliente` (`idcliente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
--- -----------------------------------------------------
--- Table `optica`.`compra`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `optica`.`compra` (
-  `idcompra` INT NOT NULL AUTO_INCREMENT,
-  `fecha` DATE NOT NULL,
-  `total` DOUBLE NOT NULL DEFAULT 0.00,
-  `proveedor` INT NOT NULL,
-  `empleado` INT NOT NULL,
-  INDEX `fk_compra_proveedor1_idx` (`proveedor` ASC) ,
-  PRIMARY KEY (`idcompra`),
-  INDEX `fk_compra_empleado1_idx` (`empleado` ASC) ,
-  CONSTRAINT `fk_compra_proveedor1`
-    FOREIGN KEY (`proveedor`)
-    REFERENCES `optica`.`proveedor` (`idproveedor`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_compra_empleado1`
-    FOREIGN KEY (`empleado`)
-    REFERENCES `optica`.`empleado` (`idempleado`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = INNODB
-DEFAULT CHARACTER SET = utf8;
-
--- -----------------------------------------------------
--- Table `optica`.`compra_detalle`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `optica`.`compra_detalle` (
-  `compra` INT NOT NULL,
-  `producto` INT NOT NULL,
-  `cantidad` INT NOT NULL,
-  `precio` DOUBLE NOT NULL,
-  `importe` DOUBLE NOT NULL,
-  INDEX `fk_detalle_compra_compra1_idx` (`compra` ASC) ,
-  INDEX `fk_detalle_compra_producto1_idx` (`producto` ASC) )
-ENGINE = MYISAM
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `optica`.`periodo_venta`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `optica`.`periodo_venta` (
-  `idperiodoventa` INT NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(45) NULL,
-  `fecha_inicio` DATE NULL,
-  `fecha_fin` DATE NULL,
-  PRIMARY KEY (`idperiodoventa`))
-ENGINE = INNODB
-DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
 -- Table `optica`.`venta`
@@ -266,8 +273,9 @@ CREATE TABLE IF NOT EXISTS `optica`.`venta` (
     REFERENCES `optica`.`periodo_venta` (`idperiodoventa`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
 
 -- -----------------------------------------------------
 -- Table `optica`.`venta_detalle`
@@ -288,5 +296,5 @@ CREATE TABLE IF NOT EXISTS `optica`.`venta_detalle` (
     REFERENCES `optica`.`producto` (`idproducto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;

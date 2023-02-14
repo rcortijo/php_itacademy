@@ -1,3 +1,4 @@
+
 -- -----------------------------------------------------
 -- Schema pizzeria
 -- -----------------------------------------------------
@@ -11,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`categoria_pizza` (
   `idcategoria` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idcategoria`))
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -21,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`tipo_producto` (
   `idtipoproducto` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idtipoproducto`))
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -32,9 +33,9 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`producto` (
   `nombre` VARCHAR(100) NOT NULL,
   `descripcion` VARCHAR(150) NULL,
   `imagen` VARCHAR(150) NULL,
-  `precio` DOUBLE NULL,
+  `precio` DOUBLE NOT NULL,
   `tipoproducto` INT NOT NULL,
-  `categoria` INT NOT NULL,
+  `categoria` INT NULL,
   PRIMARY KEY (`idproducto`),
   INDEX `fk_producto_categoria_idx` (`categoria` ASC) ,
   INDEX `fk_producto_tipo_producto1_idx` (`tipoproducto` ASC) ,
@@ -48,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`producto` (
     REFERENCES `pizzeria`.`tipo_producto` (`idtipoproducto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -58,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`provincia` (
   `idprovincia` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idprovincia`))
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -75,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`localidad` (
     REFERENCES `pizzeria`.`provincia` (`idprovincia`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -94,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`tienda` (
     REFERENCES `pizzeria`.`localidad` (`idlocalidad`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -109,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`persona` (
   `telefono` VARCHAR(45) NOT NULL,
   `correo` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idpersona`))
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -125,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`cliente` (
     REFERENCES `pizzeria`.`persona` (`idpersona`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -135,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`cargo` (
   `idcargo` INT NOT NULL,
   `nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idcargo`))
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -166,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`empleado` (
     REFERENCES `pizzeria`.`cargo` (`idcargo`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -193,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`pedido` (
     REFERENCES `pizzeria`.`empleado` (`idempleado`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -217,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`pedido_detalle` (
     REFERENCES `pizzeria`.`producto` (`idproducto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -240,8 +241,3 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`pedido_entrega` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

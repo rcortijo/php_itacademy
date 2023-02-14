@@ -1,18 +1,10 @@
+
+
 -- -----------------------------------------------------
 -- Schema spotify
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `spotify` DEFAULT CHARACTER SET utf8 ;
 USE `spotify` ;
-
--- -----------------------------------------------------
--- Table `spotify`.`tipo_usuario`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `spotify`.`tipo_usuario` (
-  `idtipousuario` INT NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idtipousuario`))
-ENGINE = INNODB;
-
 
 -- -----------------------------------------------------
 -- Table `spotify`.`pais`
@@ -21,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `spotify`.`pais` (
   `idpais` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idpais`))
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -35,51 +27,16 @@ CREATE TABLE IF NOT EXISTS `spotify`.`usuario` (
   `fecha_nacimiento` DATE NOT NULL,
   `sexo` ENUM('M', 'F') NOT NULL,
   `codigo_postal` VARCHAR(10) NOT NULL,
-  `tipo_usuario` INT NOT NULL,
+  `tipo_usuario` ENUM('free', 'premium') NOT NULL,
   `pais` INT NOT NULL,
   PRIMARY KEY (`idusuario`),
-  INDEX `fk_usuario_tipo_usuario_idx` (`tipo_usuario` ASC) ,
   INDEX `fk_usuario_pais1_idx` (`pais` ASC) ,
-  CONSTRAINT `fk_usuario_tipo_usuario`
-    FOREIGN KEY (`tipo_usuario`)
-    REFERENCES `spotify`.`tipo_usuario` (`idtipousuario`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_usuario_pais1`
     FOREIGN KEY (`pais`)
     REFERENCES `spotify`.`pais` (`idpais`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
-
-
--- -----------------------------------------------------
--- Table `spotify`.`suscripcion`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `spotify`.`suscripcion` (
-  `idsuscripcion` INT NOT NULL AUTO_INCREMENT,
-  `fecha_inicio` DATE NOT NULL,
-  `fecha_renovacion` DATE NOT NULL,
-  `estado` ENUM('activa', 'inactiva') NULL,
-  `usuario` INT NOT NULL,
-  PRIMARY KEY (`idsuscripcion`),
-  INDEX `fk_suscripcion_usuario1_idx` (`usuario` ASC) ,
-  CONSTRAINT `fk_suscripcion_usuario1`
-    FOREIGN KEY (`usuario`)
-    REFERENCES `spotify`.`usuario` (`idusuario`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = INNODB;
-
-
--- -----------------------------------------------------
--- Table `spotify`.`forma_pago`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `spotify`.`forma_pago` (
-  `idformapago` INT NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(45) NULL,
-  PRIMARY KEY (`idformapago`))
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -90,22 +47,35 @@ CREATE TABLE IF NOT EXISTS `spotify`.`pago` (
   `fecha_hora` DATETIME NOT NULL,
   `numeroOrden` INT NOT NULL,
   `total` DOUBLE NOT NULL,
-  `suscripcion` INT NOT NULL,
-  `forma_pago` INT NOT NULL,
+  `tipo_pago` ENUM('tarjeta', 'paypal') NOT NULL,
+  `usuario` INT NOT NULL,
   PRIMARY KEY (`idpago`),
-  INDEX `fk_pago_suscripcion1_idx` (`suscripcion` ASC) ,
-  INDEX `fk_pago_forma_pago1_idx` (`forma_pago` ASC) ,
-  CONSTRAINT `fk_pago_suscripcion1`
-    FOREIGN KEY (`suscripcion`)
-    REFERENCES `spotify`.`suscripcion` (`idsuscripcion`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_pago_forma_pago1`
-    FOREIGN KEY (`forma_pago`)
-    REFERENCES `spotify`.`forma_pago` (`idformapago`)
+  INDEX `fk_pago_usuario1_idx` (`usuario` ASC) ,
+  CONSTRAINT `fk_pago_usuario1`
+    FOREIGN KEY (`usuario`)
+    REFERENCES `spotify`.`usuario` (`idusuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `spotify`.`suscripcion`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `spotify`.`suscripcion` (
+  `idsuscripcion` INT NOT NULL AUTO_INCREMENT,
+  `fecha_inicio` DATE NOT NULL,
+  `fecha_renovacion` DATE NOT NULL,
+  `estado` ENUM('activa', 'inactiva') NULL,
+  `pago` INT NOT NULL,
+  PRIMARY KEY (`idsuscripcion`),
+  INDEX `fk_suscripcion_pago1_idx` (`pago` ASC) ,
+  CONSTRAINT `fk_suscripcion_pago1`
+    FOREIGN KEY (`pago`)
+    REFERENCES `spotify`.`pago` (`idpago`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -113,6 +83,7 @@ ENGINE = INNODB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spotify`.`tarjeta_credito` (
   `pago` INT NOT NULL,
+  `numero_tarjeta` VARCHAR(45) NOT NULL,
   `mes_caducidad` CHAR(2) NOT NULL,
   `anio_caducidad` INT(4) NOT NULL,
   `codigo_seguridad` CHAR(3) NOT NULL,
@@ -122,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `spotify`.`tarjeta_credito` (
     REFERENCES `spotify`.`pago` (`idpago`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -137,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `spotify`.`paypal` (
     REFERENCES `spotify`.`pago` (`idpago`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -159,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `spotify`.`playlist` (
     REFERENCES `spotify`.`usuario` (`idusuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -170,7 +141,17 @@ CREATE TABLE IF NOT EXISTS `spotify`.`artista` (
   `nombre` VARCHAR(45) NOT NULL,
   `imagen` VARCHAR(100) NULL,
   PRIMARY KEY (`idartista`))
-ENGINE = INNODB;
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `spotify`.`genero`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `spotify`.`genero` (
+  `idgenero` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idgenero`))
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -182,14 +163,21 @@ CREATE TABLE IF NOT EXISTS `spotify`.`album` (
   `anio_publicacion` INT NOT NULL,
   `imagen_portada` VARCHAR(100) NULL,
   `artista` INT NOT NULL,
+  `genero` INT NOT NULL,
   PRIMARY KEY (`idalbum`),
   INDEX `fk_album_artista1_idx` (`artista` ASC) ,
+  INDEX `fk_album_Genero1_idx` (`genero` ASC) ,
   CONSTRAINT `fk_album_artista1`
     FOREIGN KEY (`artista`)
     REFERENCES `spotify`.`artista` (`idartista`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_album_Genero1`
+    FOREIGN KEY (`genero`)
+    REFERENCES `spotify`.`genero` (`idgenero`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -208,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `spotify`.`cancion` (
     REFERENCES `spotify`.`album` (`idalbum`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -218,10 +206,8 @@ CREATE TABLE IF NOT EXISTS `spotify`.`playlist_cancion` (
   `fecha_hora` DATETIME NOT NULL,
   `playlist` INT NOT NULL,
   `cancion` INT NOT NULL,
-  `usuario` INT NOT NULL,
   INDEX `fk_playlist_cancion_playlist1_idx` (`playlist` ASC) ,
   INDEX `fk_playlist_cancion_cancion1_idx` (`cancion` ASC) ,
-  INDEX `fk_playlist_cancion_usuario1_idx` (`usuario` ASC) ,
   CONSTRAINT `fk_playlist_cancion_playlist1`
     FOREIGN KEY (`playlist`)
     REFERENCES `spotify`.`playlist` (`idplaylist`)
@@ -231,13 +217,8 @@ CREATE TABLE IF NOT EXISTS `spotify`.`playlist_cancion` (
     FOREIGN KEY (`cancion`)
     REFERENCES `spotify`.`cancion` (`idcancion`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_playlist_cancion_usuario1`
-    FOREIGN KEY (`usuario`)
-    REFERENCES `spotify`.`usuario` (`idusuario`)
-    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -260,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `spotify`.`seguidor` (
     REFERENCES `spotify`.`artista` (`idartista`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -281,7 +262,7 @@ CREATE TABLE IF NOT EXISTS `spotify`.`album_favorito` (
     REFERENCES `spotify`.`album` (`idalbum`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -302,7 +283,7 @@ CREATE TABLE IF NOT EXISTS `spotify`.`cancion_favorita` (
     REFERENCES `spotify`.`usuario` (`idusuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -316,5 +297,5 @@ CREATE TABLE IF NOT EXISTS `spotify`.`artista_relacionado` (
     REFERENCES `spotify`.`artista` (`idartista`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 

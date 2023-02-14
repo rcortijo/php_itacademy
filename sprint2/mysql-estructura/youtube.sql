@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `youtube`.`pais` (
   `idpais` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idpais`))
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `youtube`.`usuario` (
     REFERENCES `youtube`.`pais` (`idpais`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `youtube`.`categoria_video` (
   `idcategoria_video` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idcategoria_video`))
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `youtube`.`categoria_canal` (
   `idcategoria_canal` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idcategoria_canal`))
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `youtube`.`canal` (
     REFERENCES `youtube`.`categoria_canal` (`idcategoria_canal`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `youtube`.`video` (
     REFERENCES `youtube`.`canal` (`idcanal`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -120,18 +120,27 @@ ENGINE = INNODB;
 CREATE TABLE IF NOT EXISTS `youtube`.`publicacion` (
   `idpublicacion` INT NOT NULL AUTO_INCREMENT,
   `fecha_hora` DATETIME NOT NULL,
+  `texto` TEXT NOT NULL,
   `nro_reproducciones` INT NULL,
   `nro_likes` INT NULL,
   `nro_dislikes` INT NULL,
+  `imagen` VARCHAR(80) NULL,
+  `video` INT NULL,
   `canal` INT NOT NULL,
   PRIMARY KEY (`idpublicacion`),
+  INDEX `fk_publicacion_video1_idx` (`video` ASC) ,
   INDEX `fk_publicacion_canal1_idx` (`canal` ASC) ,
+  CONSTRAINT `fk_publicacion_video1`
+    FOREIGN KEY (`video`)
+    REFERENCES `youtube`.`video` (`idvideo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_publicacion_canal1`
     FOREIGN KEY (`canal`)
     REFERENCES `youtube`.`canal` (`idcanal`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -148,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `youtube`.`video_etiqueta` (
     REFERENCES `youtube`.`video` (`idvideo`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -170,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `youtube`.`suscripcion` (
     REFERENCES `youtube`.`canal` (`idcanal`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -193,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `youtube`.`publicacion_reaccion` (
     REFERENCES `youtube`.`publicacion` (`idpublicacion`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -212,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `youtube`.`playlist` (
     REFERENCES `youtube`.`canal` (`idcanal`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -233,7 +242,7 @@ CREATE TABLE IF NOT EXISTS `youtube`.`playlist_video` (
     REFERENCES `youtube`.`playlist` (`idplaylist`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -258,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `youtube`.`comentario` (
     REFERENCES `youtube`.`video` (`idvideo`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = INNODB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -282,8 +291,3 @@ CREATE TABLE IF NOT EXISTS `youtube`.`comentario_reaccion` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
