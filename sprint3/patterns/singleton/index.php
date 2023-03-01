@@ -1,9 +1,9 @@
 <?php
 include_once("Tigger.class.php");
+define('CANTIDAD_ROAR',5);
 
 $tigre = Tigger::getInstance();
-var_dump($tigre);
-$tigre = Tigger::getInstance();
-var_dump($tigre);
-$tigre = Tigger::getInstance();
-var_dump($tigre);
+for($i=0; $i<CANTIDAD_ROAR; $i++)
+    $tigre->roar();
+
+$tigre->getCounter();
