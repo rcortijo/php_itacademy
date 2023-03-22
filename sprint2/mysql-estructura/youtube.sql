@@ -149,14 +149,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `youtube`.`video_etiqueta` (
   `idetiqueta` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
-  `video` INT NOT NULL,
-  PRIMARY KEY (`idetiqueta`),
-  INDEX `fk_etiqueta_video1_idx` (`video` ASC) ,
-  CONSTRAINT `fk_etiqueta_video1`
-    FOREIGN KEY (`video`)
-    REFERENCES `youtube`.`video` (`idvideo`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`idetiqueta`))
 ENGINE = InnoDB;
 
 
@@ -213,12 +206,12 @@ CREATE TABLE IF NOT EXISTS `youtube`.`playlist` (
   `fecha_hora` DATETIME NOT NULL,
   `nombre` VARCHAR(45) NOT NULL,
   `estado` ENUM('publico', 'privado') NOT NULL,
-  `canal` INT NOT NULL,
+  `usuario` INT NOT NULL,
   PRIMARY KEY (`idplaylist`),
-  INDEX `fk_playlist_canal1_idx` (`canal` ASC) ,
-  CONSTRAINT `fk_playlist_canal1`
-    FOREIGN KEY (`canal`)
-    REFERENCES `youtube`.`canal` (`idcanal`)
+  INDEX `fk_playlist_usuario1_idx` (`usuario` ASC) ,
+  CONSTRAINT `fk_playlist_usuario1`
+    FOREIGN KEY (`usuario`)
+    REFERENCES `youtube`.`usuario` (`idusuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -288,6 +281,28 @@ CREATE TABLE IF NOT EXISTS `youtube`.`comentario_reaccion` (
   CONSTRAINT `fk_comentario_reaccion_comentario1`
     FOREIGN KEY (`comentario`)
     REFERENCES `youtube`.`comentario` (`idcomentario`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `youtube`.`video_etiqueta_has_video`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `youtube`.`video_etiqueta_has_video` (
+  `video_etiqueta` INT NOT NULL,
+  `video` INT NOT NULL,
+  PRIMARY KEY (`video_etiqueta`, `video`),
+  INDEX `fk_video_etiqueta_has_video_video1_idx` (`video` ASC) ,
+  INDEX `fk_video_etiqueta_has_video_video_etiqueta1_idx` (`video_etiqueta` ASC) ,
+  CONSTRAINT `fk_video_etiqueta_has_video_video_etiqueta1`
+    FOREIGN KEY (`video_etiqueta`)
+    REFERENCES `youtube`.`video_etiqueta` (`idetiqueta`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_video_etiqueta_has_video_video1`
+    FOREIGN KEY (`video`)
+    REFERENCES `youtube`.`video` (`idvideo`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

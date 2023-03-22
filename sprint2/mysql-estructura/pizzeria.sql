@@ -1,4 +1,3 @@
-
 -- -----------------------------------------------------
 -- Schema pizzeria
 -- -----------------------------------------------------
@@ -66,13 +65,13 @@ ENGINE = InnoDB;
 -- Table `pizzeria`.`localidad`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pizzeria`.`localidad` (
-  `idlocalidad` INT NOT NULL,
-  `nombre` VARCHAR(45) NULL,
-  `provincia` INT NOT NULL,
+  `idlocalidad` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NOT NULL,
+  `provincia_idprovincia` INT NOT NULL,
   PRIMARY KEY (`idlocalidad`),
-  INDEX `fk_localidad_provincia1_idx` (`provincia` ASC) ,
-  CONSTRAINT `fk_localidad_provincia1`
-    FOREIGN KEY (`provincia`)
+  INDEX `fk_localidad_provincia2_idx` (`provincia_idprovincia` ASC) ,
+  CONSTRAINT `fk_localidad_provincia2`
+    FOREIGN KEY (`provincia_idprovincia`)
     REFERENCES `pizzeria`.`provincia` (`idprovincia`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -99,6 +98,33 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `pizzeria`.`provincia`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pizzeria`.`provincia` (
+  `idprovincia` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idprovincia`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pizzeria`.`localidad`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pizzeria`.`localidad` (
+  `idlocalidad` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NOT NULL,
+  `provincia_idprovincia` INT NOT NULL,
+  PRIMARY KEY (`idlocalidad`),
+  INDEX `fk_localidad_provincia2_idx` (`provincia_idprovincia` ASC) ,
+  CONSTRAINT `fk_localidad_provincia2`
+    FOREIGN KEY (`provincia_idprovincia`)
+    REFERENCES `pizzeria`.`provincia` (`idprovincia`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `pizzeria`.`persona`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pizzeria`.`persona` (
@@ -109,7 +135,14 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`persona` (
   `direccion` VARCHAR(45) NOT NULL,
   `telefono` VARCHAR(45) NOT NULL,
   `correo` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idpersona`))
+  `localidad` INT NOT NULL,
+  PRIMARY KEY (`idpersona`),
+  INDEX `fk_persona_localidad1_idx` (`localidad` ASC) ,
+  CONSTRAINT `fk_persona_localidad1`
+    FOREIGN KEY (`localidad`)
+    REFERENCES `pizzeria`.`localidad` (`idlocalidad`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -181,9 +214,11 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`pedido` (
   `direccion_entrega` VARCHAR(150) NULL,
   `cliente` INT NOT NULL,
   `empleado` INT NOT NULL,
+  `tienda` INT NOT NULL,
   PRIMARY KEY (`idpedido`),
   INDEX `fk_pedido_cliente1_idx` (`cliente` ASC) ,
   INDEX `fk_pedido_empleado1_idx` (`empleado` ASC) ,
+  INDEX `fk_pedido_tienda1_idx` (`tienda` ASC) ,
   CONSTRAINT `fk_pedido_cliente1`
     FOREIGN KEY (`cliente`)
     REFERENCES `pizzeria`.`cliente` (`idcliente`)
@@ -192,6 +227,11 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`pedido` (
   CONSTRAINT `fk_pedido_empleado1`
     FOREIGN KEY (`empleado`)
     REFERENCES `pizzeria`.`empleado` (`idempleado`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pedido_tienda1`
+    FOREIGN KEY (`tienda`)
+    REFERENCES `pizzeria`.`tienda` (`idtienda`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -226,18 +266,18 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pizzeria`.`pedido_entrega` (
   `fecha_hora` DATETIME NOT NULL,
-  `pedido` INT NOT NULL,
   `repartidor` INT NOT NULL,
-  INDEX `fk_pedido_entrega_pedido1_idx` (`pedido` ASC) ,
+  `pedido_idpedido` INT NOT NULL,
   INDEX `fk_pedido_entrega_empleado1_idx` (`repartidor` ASC) ,
-  CONSTRAINT `fk_pedido_entrega_pedido1`
-    FOREIGN KEY (`pedido`)
-    REFERENCES `pizzeria`.`pedido` (`idpedido`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `fk_pedido_entrega_pedido1_idx` (`pedido_idpedido` ASC) ,
   CONSTRAINT `fk_pedido_entrega_empleado1`
     FOREIGN KEY (`repartidor`)
     REFERENCES `pizzeria`.`empleado` (`idempleado`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pedido_entrega_pedido1`
+    FOREIGN KEY (`pedido_idpedido`)
+    REFERENCES `pizzeria`.`pedido` (`idpedido`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
